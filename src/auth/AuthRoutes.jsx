@@ -6,7 +6,6 @@ import Login from "../routes/Login";
 
 const AuthRoutes = () => {
   const user = useRecoilValue(userState);
-  console.log("user at AuthRoute: ", user);
   return user ? <Outlet /> : <Login />;
 };
 

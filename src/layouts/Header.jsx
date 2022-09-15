@@ -1,11 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { userState } from "../recoil";
+import { modalActiveState, userState } from "../recoil";
 
 const Header = () => {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
+  const [active, setActive] = useRecoilState(modalActiveState);
 
   return (
     <header>
@@ -33,7 +34,13 @@ const Header = () => {
         <div>
           {user ? (
             <div className="flex items-center">
-              <Link to={`/studio/channel/${user.id}`} className="mr-4 mt-2">
+              <Link
+                to={`/studio/channel/${user.id}`}
+                onClick={() => {
+                  setActive(true);
+                }}
+                className="mr-4 mt-2"
+              >
                 <i className="fi fi-rr-video-plus text-3xl"></i>
               </Link>
               <div className="dropdown dropdown-end">
