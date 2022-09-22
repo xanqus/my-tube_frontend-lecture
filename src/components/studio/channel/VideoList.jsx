@@ -1,7 +1,8 @@
 import React from "react";
 import VideoListItem from "./VideoListItem";
 
-const VideoList = () => {
+const VideoList = ({ videos }) => {
+  console.log(videos);
   return (
     <div className="overflow-x">
       <table className="table w-full z-0">
@@ -25,8 +26,9 @@ const VideoList = () => {
           </tr>
         </thead>
         <tbody>
-          <VideoListItem />
-          <VideoListItem />
+          {videos.map((video, index) => (
+            <VideoListItem video={video} key={index} />
+          ))}
         </tbody>
       </table>
     </div>

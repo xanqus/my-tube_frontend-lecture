@@ -1,6 +1,7 @@
 import React from "react";
+import { formatDate } from "../../../utils";
 
-const VideoListItem = () => {
+const VideoListItem = ({ video }) => {
   return (
     <tr>
       <th className="border-y">
@@ -14,28 +15,27 @@ const VideoListItem = () => {
       <td className="border-y">
         <div className="flex">
           <div className="w-36">
-            <img
-              src="https://blog.kakaocdn.net/dn/m07x9/btqSLGu0ccF/WuCwiJPrNKx9IB3xpER7C1/img.png"
-              alt="thumnail"
-            />
+            <img src={video.thumbnailUrl} alt="thumnail" />
           </div>
           <div className="flex flex-col ml-6">
-            <div className="cursor-pointer hover:underline">코딩 잘하는법</div>
+            <div className="cursor-pointer hover:underline">{video.title}</div>
             <div>설명추가</div>
           </div>
         </div>
       </td>
-      <td className="border-y">초안</td>
+      <td className="border-y">
+        {video.isTemp ? "초안" : video.isPublic ? "공개" : "비공개"}
+      </td>
       <td className="border-y">없음</td>
       <td className="border-y">
         <div className="flex flex-col">
-          <div>2022-09-15</div>
+          <div>{formatDate(video.regDate)}</div>
           <div>게시날짜</div>
         </div>
       </td>
+      <td className="border-y">{video.views}</td>
       <td className="border-y">0</td>
-      <td className="border-y">0</td>
-      <td className="border-y">0</td>
+      <td className="border-y">{video.likeCount}</td>
     </tr>
   );
 };

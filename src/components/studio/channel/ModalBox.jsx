@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { modalActiveState } from "../../../recoil";
 import VideoInput from "./VideoInput";
 
-const ModalBox = () => {
+const ModalBox = ({ setVideos }) => {
   const [active, setActive] = useRecoilState(modalActiveState);
   return (
     <>
@@ -15,7 +15,7 @@ const ModalBox = () => {
         onChange={() => {}}
       />
       <div htmlFor="my-modal-4" className="modal" onClick={() => {}}>
-        <VideoInput />
+        <VideoInput setVideos={setVideos} />
       </div>
     </>
   );

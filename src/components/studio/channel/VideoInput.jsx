@@ -1,8 +1,11 @@
+import axios from "axios";
 import React from "react";
-import { useRecoilState } from "recoil";
-import { modalActiveState } from "../../../recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { modalActiveState, userState } from "../../../recoil";
+import { BACKEND_URL } from "../../../utils/env";
 
-const VideoInput = () => {
+const VideoInput = ({ setVideos }) => {
+  const user = useRecoilValue(userState);
   const [active, setActive] = useRecoilState(modalActiveState);
   return (
     <div className="flex flex-col modal-box relative max-w-full w-240 h-192 rounded-md p-0">
@@ -31,7 +34,35 @@ const VideoInput = () => {
         </label>
       </div>
       <div className="flex flex-col items-center h-auto flex-grow">
-        <input id="video-upload" type="file" hidden multiple />
+        <input
+          id="video-upload"
+          type="file"
+          hidden
+          multiple
+          onChange={async (e) => {
+            e.preventDefault();
+            try {
+              const formData = new FormData();
+
+              Object.keys(e.target.files).map((key) =>
+                formData.append("files", e.target.files[key])
+              );
+
+              const data = await axios({
+                headers: { "Content-Type": "multipart/form-data" },
+                url: `${BACKEND_URL}/video?userId=${user.id}`,
+                method: "POST",
+                data: formData,
+              });
+              e.target.value = "";
+              setVideos(data.data);
+              setActive(false);
+              console.log(data);
+            } catch (e) {
+              console.log(e);
+            }
+          }}
+        />
         <div>
           <div>동영상 파일을 드래그 앤 드롭하여 업로드</div>
           <div>동영상을 게시하기 전에는 비공개로 설정됩니다.</div>

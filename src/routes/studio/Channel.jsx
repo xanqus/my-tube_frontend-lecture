@@ -1,13 +1,30 @@
-import React from "react";
-import { useRecoilState } from "recoil";
+import axios from "axios";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import ModalBox from "../../components/studio/channel/ModalBox";
 import ModalButton from "../../components/studio/channel/ModalButton";
 import VideoList from "../../components/studio/channel/VideoList";
 import Layout from "../../layouts/Layout";
-import { modalActiveState } from "../../recoil";
+import { modalActiveState, userState } from "../../recoil";
+import { BACKEND_URL } from "../../utils/env";
 
 const Channel = () => {
+  const [loading, setLoading] = useState(true);
   const [active, setActive] = useRecoilState(modalActiveState);
+  const [videos, setVideos] = useState(null);
+  const user = useRecoilValue(userState);
+  useEffect(() => {
+    const getData = async () => {
+      const data = await axios({
+        url: `${BACKEND_URL}/video?userId=${user.id}`,
+      });
+      setLoading(false);
+      setVideos(data.data);
+    };
+    getData();
+  }, []);
+
   return (
     <Layout>
       <div className="flex pointer-events-auto">
@@ -27,10 +44,10 @@ const Channel = () => {
               <div className="text-base">만들기</div>
             </div>
           </ModalButton>
-          <VideoList />
+          {loading ? <div>loading...</div> : <VideoList videos={videos} />}
         </div>
       </div>
-      <ModalBox />
+      <ModalBox setVideos={setVideos} />
     </Layout>
   );
 };
