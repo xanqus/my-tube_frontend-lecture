@@ -1,7 +1,7 @@
 import React from "react";
 import VideoListItem from "./VideoListItem";
 
-const VideoList = ({ videos }) => {
+const VideoList = ({ videos, setSelectedVideo }) => {
   console.log(videos);
   return (
     <div className="overflow-x">
@@ -27,7 +27,11 @@ const VideoList = ({ videos }) => {
         </thead>
         <tbody>
           {videos.map((video, index) => (
-            <VideoListItem video={video} key={index} />
+            <VideoListItem
+              video={video}
+              key={index}
+              setSelectedVideo={setSelectedVideo}
+            />
           ))}
         </tbody>
       </table>

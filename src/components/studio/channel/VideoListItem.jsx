@@ -1,7 +1,11 @@
 import React from "react";
+import { useSetRecoilState } from "recoil";
+import { isEditingState, modalActiveState } from "../../../recoil";
 import { formatDate } from "../../../utils";
 
-const VideoListItem = ({ video }) => {
+const VideoListItem = ({ video, setSelectedVideo }) => {
+  const setIsEditing = useSetRecoilState(isEditingState);
+  const setActive = useSetRecoilState(modalActiveState);
   return (
     <tr>
       <th className="border-y">
@@ -18,7 +22,16 @@ const VideoListItem = ({ video }) => {
             <img src={video.thumbnailUrl} alt="thumnail" />
           </div>
           <div className="flex flex-col ml-6">
-            <div className="cursor-pointer hover:underline">{video.title}</div>
+            <div
+              onClick={() => {
+                setSelectedVideo(video);
+                setActive(true);
+                setIsEditing(true);
+              }}
+              className="cursor-pointer hover:underline"
+            >
+              {video.title}
+            </div>
             <div>설명추가</div>
           </div>
         </div>

@@ -8,3 +8,15 @@ export const modalActiveState = atom({
   default: true,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const isEditingState = atom({
+  key: "isEditingState",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const selectedVideoState = atom({
+  key: "selectedVideoState",
+  default: null,
+  effects_UNSTABLE: [persistAtom],
+});

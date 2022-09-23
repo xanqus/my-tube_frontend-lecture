@@ -6,7 +6,7 @@ import ModalBox from "../../components/studio/channel/ModalBox";
 import ModalButton from "../../components/studio/channel/ModalButton";
 import VideoList from "../../components/studio/channel/VideoList";
 import Layout from "../../layouts/Layout";
-import { modalActiveState, userState } from "../../recoil";
+import { modalActiveState, selectedVideoState, userState } from "../../recoil";
 import { BACKEND_URL } from "../../utils/env";
 
 const Channel = () => {
@@ -14,6 +14,7 @@ const Channel = () => {
   const [active, setActive] = useRecoilState(modalActiveState);
   const [videos, setVideos] = useState(null);
   const user = useRecoilValue(userState);
+  const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoState);
   useEffect(() => {
     const getData = async () => {
       const data = await axios({
@@ -44,10 +45,14 @@ const Channel = () => {
               <div className="text-base">만들기</div>
             </div>
           </ModalButton>
-          {loading ? <div>loading...</div> : <VideoList videos={videos} />}
+          {loading ? (
+            <div>loading...</div>
+          ) : (
+            <VideoList videos={videos} setSelectedVideo={setSelectedVideo} />
+          )}
         </div>
       </div>
-      <ModalBox setVideos={setVideos} />
+      <ModalBox setVideos={setVideos} selectedVideo={selectedVideo} />
     </Layout>
   );
 };

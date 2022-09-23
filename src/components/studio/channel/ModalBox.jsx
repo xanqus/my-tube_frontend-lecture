@@ -1,10 +1,12 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import { modalActiveState } from "../../../recoil";
+import { isEditingState, modalActiveState } from "../../../recoil";
+import VideoEdit from "./VideoEdit";
 import VideoInput from "./VideoInput";
 
-const ModalBox = ({ setVideos }) => {
+const ModalBox = ({ setVideos, selectedVideo }) => {
   const [active, setActive] = useRecoilState(modalActiveState);
+  const [isEditing, setIsEditing] = useRecoilState(isEditingState);
   return (
     <>
       <input
@@ -15,7 +17,11 @@ const ModalBox = ({ setVideos }) => {
         onChange={() => {}}
       />
       <div htmlFor="my-modal-4" className="modal" onClick={() => {}}>
-        <VideoInput setVideos={setVideos} />
+        {isEditing ? (
+          <VideoEdit selectedVideo={selectedVideo} />
+        ) : (
+          <VideoInput setVideos={setVideos} />
+        )}
       </div>
     </>
   );
