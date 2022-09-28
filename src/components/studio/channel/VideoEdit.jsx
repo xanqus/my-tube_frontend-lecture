@@ -1,11 +1,17 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { isEditingState, modalActiveState } from "../../../recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isEditingState, modalActiveState, userState } from "../../../recoil";
+import { BACKEND_URL } from "../../../utils/env";
 
-const VideoEdit = ({ selectedVideo }) => {
+const VideoEdit = ({ selectedVideo, setVideos }) => {
+  const user = useRecoilValue(userState);
   const setActive = useSetRecoilState(modalActiveState);
   const setIsEditing = useSetRecoilState(isEditingState);
+  const [title, setTitle] = useState(selectedVideo?.title);
+  const [description, setDescription] = useState(selectedVideo?.description);
+
   return (
     <div className="flex flex-col modal-box relative max-w-full w-240 h-192 rounded-md p-0">
       <div className="flex border-b h-14">
@@ -16,7 +22,17 @@ const VideoEdit = ({ selectedVideo }) => {
           <label
             htmlFor="my-modal-4"
             className="flex justify-center items-center h-full cursor-pointer text-gray-700 font-bold"
-            onClick={() => {
+            onClick={async () => {
+              await axios({
+                url: `${BACKEND_URL}/video/${selectedVideo.videoId}`,
+                method: "PATCH",
+                data: { title, description },
+              });
+              const data = await axios({
+                url: `${BACKEND_URL}/video?userId=${user.id}`,
+              });
+              setVideos(data.data);
+              console.log("data: ", data.data);
               setActive(false);
               setIsEditing(false);
             }}
@@ -34,8 +50,10 @@ const VideoEdit = ({ selectedVideo }) => {
               <input
                 type="text"
                 className="w-full p-4 pt-3 focus:ring-0 border-0 outline-0"
-                value={selectedVideo?.title}
-                onChange={() => {}}
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
               />
             </div>
             <div className="mt-6 border border-gray-300 focus-within:border-blue-500 rounded">
@@ -44,8 +62,10 @@ const VideoEdit = ({ selectedVideo }) => {
                 type="text"
                 className="w-full p-4 pt-3 focus:ring-0 resize-none outline-0"
                 placeholder="시청자에게 동영상에 대해 이야기하기"
-                value={selectedVideo?.description || ""}
-                onChange={() => {}}
+                value={description || ""}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
               />
             </div>
             <div className="flex flex-col gap-2 mt-6">

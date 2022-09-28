@@ -18,7 +18,7 @@ const ModalBox = ({ setVideos, selectedVideo }) => {
       />
       <div htmlFor="my-modal-4" className="modal" onClick={() => {}}>
         {isEditing ? (
-          <VideoEdit selectedVideo={selectedVideo} />
+          <VideoEdit selectedVideo={selectedVideo} setVideos={setVideos} />
         ) : (
           <VideoInput setVideos={setVideos} />
         )}
