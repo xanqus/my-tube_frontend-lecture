@@ -53,13 +53,6 @@ const Channel = () => {
         </div>
       </div>
       <ModalBox setVideos={setVideos} selectedVideo={selectedVideo} />
-      <button
-        onClick={() => {
-          console.log(videos);
-        }}
-      >
-        click
-      </button>
     </Layout>
   );
 };

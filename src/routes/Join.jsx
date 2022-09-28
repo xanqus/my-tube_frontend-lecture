@@ -26,7 +26,6 @@ const Join = () => {
             setPassword("");
             alert("회원가입 성공!");
           } catch (e) {
-            console.log(e);
             alert("회원가입 실패");
           }
         }}

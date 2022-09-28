@@ -2,7 +2,6 @@ import React from "react";
 import VideoListItem from "./VideoListItem";
 
 const VideoList = ({ videos, setSelectedVideo }) => {
-  console.log(videos);
   return (
     <div className="overflow-x">
       <table className="table w-full z-0">

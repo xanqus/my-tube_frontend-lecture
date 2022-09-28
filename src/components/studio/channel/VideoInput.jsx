@@ -57,7 +57,6 @@ const VideoInput = ({ setVideos }) => {
               e.target.value = "";
               setVideos(data.data);
               setActive(false);
-              console.log(data);
             } catch (e) {
               console.log(e);
             }

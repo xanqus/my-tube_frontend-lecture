@@ -11,6 +11,7 @@ const VideoEdit = ({ selectedVideo, setVideos }) => {
   const setIsEditing = useSetRecoilState(isEditingState);
   const [title, setTitle] = useState(selectedVideo?.title);
   const [description, setDescription] = useState(selectedVideo?.description);
+  const [isPublic, setIsPublic] = useState(selectedVideo?.isPublic);
 
   return (
     <div className="flex flex-col modal-box relative max-w-full w-240 h-192 rounded-md p-0">
@@ -32,7 +33,6 @@ const VideoEdit = ({ selectedVideo, setVideos }) => {
                 url: `${BACKEND_URL}/video?userId=${user.id}`,
               });
               setVideos(data.data);
-              console.log("data: ", data.data);
               setActive(false);
               setIsEditing(false);
             }}
@@ -85,9 +85,11 @@ const VideoEdit = ({ selectedVideo, setVideos }) => {
                     type="radio"
                     name="radio-6"
                     className="radio checked:bg-gray-500 border-gray-500 "
-                    checked
-                    onClick={() => {}}
+                    checked={!isPublic}
                     onChange={() => {}}
+                    onClick={() => {
+                      setIsPublic(false);
+                    }}
                   />
                   <div className="ml-3">비공개</div>
                 </div>
@@ -96,9 +98,11 @@ const VideoEdit = ({ selectedVideo, setVideos }) => {
                     type="radio"
                     name="radio-6"
                     className="radio checked:bg-gray-500 border-gray-500"
-                    checked
-                    onClick={() => {}}
+                    checked={isPublic}
                     onChange={() => {}}
+                    onClick={() => {
+                      setIsPublic(true);
+                    }}
                   />
                   <div className="ml-3">공개</div>
                 </div>
@@ -139,7 +143,22 @@ const VideoEdit = ({ selectedVideo, setVideos }) => {
               <div className="mt-3">파일 이름</div>
               <div>{selectedVideo.filename}</div>
             </div>
-            <div className="btn btn-sm bg-blue-500 text-white border-none hover:bg-blue-500 rounded-none mt-auto mb-4">
+            <div
+              className="btn btn-sm bg-blue-500 text-white border-none hover:bg-blue-500 rounded-none mt-auto mb-4"
+              onClick={async () => {
+                await axios({
+                  url: `${BACKEND_URL}/video/${selectedVideo.videoId}`,
+                  method: "PATCH",
+                  data: { title, description, isPublic, isTemp: false },
+                });
+                const data = await axios({
+                  url: `${BACKEND_URL}/video?userId=${user.id}`,
+                });
+                setVideos(data.data);
+                setActive(false);
+                setIsEditing(false);
+              }}
+            >
               저장
             </div>
           </div>

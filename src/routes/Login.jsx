@@ -32,7 +32,6 @@ const Login = () => {
             navigate("/");
             alert("로그인 성공!");
           } catch (e) {
-            console.log(e);
             alert("로그인 실패");
           }
         }}
