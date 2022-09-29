@@ -15,7 +15,19 @@ const VideoEditor = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(true);
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const getData = async () => {
+      const data = await axios({
+        url: `${BACKEND_URL}/video/${params.id}`,
+      });
+      setVideo(data.data);
+      setTitle(data.data.title);
+      setDescription(data.data.description);
+      setIsPublic(data.data.isPublic);
+      console.log(data);
+    };
+    getData();
+  }, []);
   return (
     <Layout>
       <div className="flex pointer-events-auto">
@@ -26,20 +38,7 @@ const VideoEditor = () => {
           <div className="flex items-center h-18">
             <div className="text-2xl font-bold ml-6">동영상 세부정보</div>
             <div className="ml-auto">
-              <div
-                className="btn btn-sm bg-blue-500 text-white border-none hover:bg-blue-500 rounded-none mr-4"
-                onClick={async () => {
-                  await axios({
-                    url: `${BACKEND_URL}/api/v1/video/${params.id}`,
-                    method: "PATCH",
-                    data: {
-                      title,
-                      description,
-                      isPublic,
-                    },
-                  });
-                }}
-              >
+              <div className="btn btn-sm bg-blue-500 text-white border-none hover:bg-blue-500 rounded-none mr-4">
                 저장
               </div>
               <div className="btn btn-sm bg-red-500 text-white border-none hover:bg-red-500 rounded-none mr-6">
@@ -81,9 +80,8 @@ const VideoEditor = () => {
                     className="w-full h-full rounded-t"
                     controls
                     poster={video?.thumbnailUrl}
-                  >
-                    <source src={video?.videoUrl} />
-                  </video>
+                    src={video?.videoUrl}
+                  ></video>
                 </div>
                 <div className="w-full h-32 rounded-b text-sm p-2 bg-gray-50">
                   <div>동영상 링크</div>
