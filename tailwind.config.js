@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       height: {
+        18: "4.5rem",
         112: "28rem",
         120: "30rem",
         124: "31rem",
@@ -14,11 +15,16 @@ module.exports = {
       },
       width: {
         144: "36rem",
+        180: "45rem",
         240: "60rem",
+        281: "70.25rem",
       },
       inset: {
         "11px": "11px",
         "15px": "15px",
+      },
+      minWidth: {
+        170: "42.5rem",
       },
     },
   },
