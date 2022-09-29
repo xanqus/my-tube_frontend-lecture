@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { isEditingState, modalActiveState } from "../../../recoil";
 import { formatDate } from "../../../utils";
@@ -6,6 +7,8 @@ import { formatDate } from "../../../utils";
 const VideoListItem = ({ video, setSelectedVideo }) => {
   const setIsEditing = useSetRecoilState(isEditingState);
   const setActive = useSetRecoilState(modalActiveState);
+  const navigate = useNavigate();
+
   return (
     <tr>
       <th className="border-y">
@@ -24,9 +27,13 @@ const VideoListItem = ({ video, setSelectedVideo }) => {
           <div className="flex flex-col ml-6">
             <div
               onClick={() => {
-                setSelectedVideo(video);
-                setActive(true);
-                setIsEditing(true);
+                if (video.isTemp) {
+                  setSelectedVideo(video);
+                  setActive(true);
+                  setIsEditing(true);
+                } else {
+                  navigate(`/studio/video/${video.videoId}/edit`);
+                }
               }}
               className="cursor-pointer hover:underline"
             >
