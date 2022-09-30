@@ -38,7 +38,20 @@ const VideoEditor = () => {
           <div className="flex items-center h-18">
             <div className="text-2xl font-bold ml-6">동영상 세부정보</div>
             <div className="ml-auto">
-              <div className="btn btn-sm bg-blue-500 text-white border-none hover:bg-blue-500 rounded-none mr-4">
+              <div
+                className="btn btn-sm bg-blue-500 text-white border-none hover:bg-blue-500 rounded-none mr-4"
+                onClick={async () => {
+                  const data = await axios({
+                    url: `${BACKEND_URL}/video/${video.videoId}`,
+                    method: "PATCH",
+                    data: {
+                      title,
+                      description,
+                      isPublic,
+                    },
+                  });
+                }}
+              >
                 저장
               </div>
               <div className="btn btn-sm bg-red-500 text-white border-none hover:bg-red-500 rounded-none mr-6">
@@ -52,7 +65,7 @@ const VideoEditor = () => {
                 <div className="text-sm pl-2 pt-2">제목(필수항목)</div>
                 <input
                   type="text"
-                  className="w-full border-none p-4 pt-3 focus:ring-0"
+                  className="w-full border-none p-4 pt-3 focus:ring-0 outline-0"
                   value={title || ""}
                   onChange={(e) => {
                     setTitle(e.target.value);
@@ -63,7 +76,7 @@ const VideoEditor = () => {
                 <div className="text-sm pl-2 pt-2">설명</div>
                 <textarea
                   type="text"
-                  className="w-full border-none p-4 pt-3 focus:ring-0 resize-none"
+                  className="w-full border-none p-4 pt-3 focus:ring-0 resize-none outline-0"
                   placeholder="시청자에게 동영상에 대해 이야기하기"
                   value={description || ""}
                   onChange={(e) => {
