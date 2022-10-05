@@ -20,11 +20,15 @@ const Channel = () => {
       const data = await axios({
         url: `${BACKEND_URL}/video?userId=${user.id}`,
       });
+      console.log(data);
       setLoading(false);
       setVideos(data.data);
     };
     getData();
   }, []);
+  if (loading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <Layout>

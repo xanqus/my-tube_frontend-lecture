@@ -17,7 +17,7 @@ const VideoEdit = ({ selectedVideo, setVideos }) => {
     <div className="flex flex-col modal-box relative max-w-full w-240 h-192 rounded-md p-0">
       <div className="flex border-b h-14">
         <div className="flex justify-center h-14 items-center ml-5 text-lg">
-          {selectedVideo.title}
+          {selectedVideo?.title}
         </div>
         <div className="ml-auto w-14">
           <label
@@ -131,23 +131,23 @@ const VideoEdit = ({ selectedVideo, setVideos }) => {
             <div className="w-72 h-40 mt-12 ">
               <video
                 className="w-full h-full rounded-t"
-                poster={selectedVideo.thumbnailUrl}
+                poster={selectedVideo?.thumbnailUrl}
                 controls
               >
-                <source src={selectedVideo.videoUrl} />
+                <source src={selectedVideo?.videoUrl} />
               </video>
             </div>
             <div className="w-72 border border-gray-400 h-32  rounded-b text-sm p-2">
               <div>동영상 링크</div>
               <div className="text-blue-500">https://~~</div>
               <div className="mt-3">파일 이름</div>
-              <div>{selectedVideo.filename}</div>
+              <div>{selectedVideo?.filename}</div>
             </div>
             <div
               className="btn btn-sm bg-blue-500 text-white border-none hover:bg-blue-500 rounded-none mt-auto mb-4"
               onClick={async () => {
                 await axios({
-                  url: `${BACKEND_URL}/video/${selectedVideo.videoId}`,
+                  url: `${BACKEND_URL}/video/${selectedVideo?.videoId}`,
                   method: "PATCH",
                   data: { title, description, isPublic, isTemp: false },
                 });

@@ -11,6 +11,7 @@ import UserDetail from "./routes/users/UserDetail";
 import { RecoilRoot } from "recoil";
 import Studio from "./routes/studio/Studio";
 import AuthRoutes from "./auth/AuthRoutes";
+import VideoDetail from "./routes/VideoDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -22,6 +23,7 @@ root.render(
           <Route path="/" element={<Home />}></Route>
           <Route path="/join" element={<Join />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/watch" element={<VideoDetail />}></Route>
           <Route element={<AuthRoutes />}>
             <Route path="/about/:id" element={<About />}></Route>
             <Route path="/users/:id" element={<UserDetail />}></Route>
